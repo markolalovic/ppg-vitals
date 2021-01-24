@@ -19,10 +19,11 @@ let numOfQualityFrames = 0; // TODO: count the number of quality frames
 let constraintsObj = {
     audio: false,
     video: { 
-        // 720p = 1280 x 720
-        // 1280 x 960
-        width: { ideal: 1280 },
-        height: { ideal: 720 }, 
+        // 1MP = 720p = 1280 x 720
+        // 2MP = 1080p = 1920 x 1080
+        // 4MP = 2K = 2688 x 1520
+        maxWidth: 1920,
+        maxHeight: 1080, 
         frameRate: {ideal: 240 },
         facingMode: 'environment' // rear-facing-camera
     }
