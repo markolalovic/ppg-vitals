@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <title>Smartphone CVH Metrics</title>
+        <meta name="viewport" content="width=device-width">
+        <style>
+          body {
+              font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+          }
+          #chart {
+            max-width: 600px;
+            max-height: 400px;           
+          }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h2>Smartphone CVH Metrics</h2>
+            <!-- Demo disclaimer -->
+            <p>**This website is for demonstration purposes only**</p>            
+        </header>
+        <main>
+            <button 
+                id="record", 
+                style="width:100px; height:30px; font-size:15px;">Measure</button>
+            <div>
+                <video id='video'></video>
+            </div>
+            <div>
+                <canvas id="output-canvas"></canvas>
+            </div>
+            <div id="chart"></div>
+            <p id="resolution"></p>
+            <p id="delay"></p>
+            <p id="frame-fps"></p>
+            <p id="frame-time"></p>
+            <p id="video-time"></p>
+            <p id="signal"></p>
+        </main>
+        <script src="../src/real-time-line-chart.js"></script>
+        <script src="../src/main.js"></script>
+    </body>
+</html>
+
+
+
+
