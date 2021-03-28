@@ -1,0 +1,27 @@
+/* * {
+    margin: 0;
+} */
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    background-color: #f3f3f3;
+    /* font-family: 'Open Sans', sans-serif; */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: rgba(0, 0, 0, 0.877);
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#chart {
+    /* max-width: 600px;
+    max-height: 400px; */
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #f3f3f3;
+}
