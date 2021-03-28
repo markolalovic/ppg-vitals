@@ -1,6 +1,6 @@
 # ppg-vitals
 
-Vital signs monitor based on PPG signal caputred by smartphone camera
+Vital signs monitor based on PPG signal captured by smartphone camera
 
 Designed to demonstrate that a smart phone camera can be used to estimate several cardiovascular metrics:
 
