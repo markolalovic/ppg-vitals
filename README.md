@@ -1,8 +1,10 @@
 # ppg-vitals
 
-Demo app designed to demonstrate that a smart phone camera can be used to estimate several cardiovascular metrics:
+Vital signs monitor based on PPG signal caputred by smartphone camera
 
-[https://markolalovic.com/smartphone-cvh-metrics/](https://markolalovic.com/smartphone-cvh-metrics/)
+Designed to demonstrate that a smart phone camera can be used to estimate several cardiovascular metrics:
+
+[https://markolalovic.com/ppg-vitals/](https://markolalovic.com/ppg-vitals)
 
 ## Description
 
