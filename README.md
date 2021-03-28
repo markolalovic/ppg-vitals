@@ -1,10 +1,8 @@
-# smartphone-cvh-metrics
+# ppg-vitals
 
-A simple smart phone web application available at
+Demo app designed to demonstrate that a smart phone camera can be used to estimate several cardiovascular metrics:
 
 [https://markolalovic.com/smartphone-cvh-metrics/](https://markolalovic.com/smartphone-cvh-metrics/)
-
-Designed to demonstrate that a smart phone camera can be used to estimate several cardiovascular metrics.
 
 ## Description
 
@@ -41,4 +39,3 @@ The application uses the smart phone flashlight and camera to measure photopleth
 Clinical Validation of Heart Rate Apps: Mixed-Methods Evaluation Study
 JMIR Mhealth Uhealth 2017;5(8):e129
 [https://mhealth.jmir.org/2017/8/e129](https://mhealth.jmir.org/2017/8/e129)
-
