@@ -10,9 +10,12 @@ let numOfQualityFrames = 0; // TODO: count the number of quality frames
 let xMeanArr = [];
 let xMean = 0;
 let initTime;
+let isSignal = 0;
+let acFrame = 0.008; // start with dummy flat signal
+let acWindow = 0.008;
 
 let nFrame = 0;
-const WINDOW_LENGTH = 100;
+const WINDOW_LENGTH = 300; // 300 frames = 5s @ 60 FPS
 let acdc = Array(WINDOW_LENGTH).fill(0.5);
 let ac = Array(WINDOW_LENGTH).fill(0.5);
 
@@ -27,7 +30,7 @@ let constraintsObj = {
   video: {
     maxWidth: 1280,
     maxHeight: 720,
-    frameRate: { ideal: 240 },
+    frameRate: { ideal: 60 },
     facingMode: 'environment' // rear-facing-camera
   }
 };
@@ -49,50 +52,69 @@ function init() {
 }
 
 function computeFrame() {
-  ctx_tmp.drawImage(video,
-    0, 0, video.videoWidth, video.videoHeight);
-  let frame = ctx_tmp.getImageData(
-    0, 0, video.videoWidth, video.videoHeight);
+  if (nFrame > DURATION) {
+    ctx_tmp.drawImage(video,
+      0, 0, video.videoWidth, video.videoHeight);
+    let frame = ctx_tmp.getImageData(
+      0, 0, video.videoWidth, video.videoHeight);
 
-  // process each frame
-  const count = frame.data.length / 4;
-  let rgbRed = 0;
-  for (let i = 0; i < count; i++) {
-    rgbRed += frame.data[i * 4];
+    // process each frame
+    const count = frame.data.length / 4;
+    let rgbRed = 0;
+    for (let i = 0; i < count; i++) {
+      rgbRed += frame.data[i * 4];
+    }
+    // invert to plot the PPG signal
+    xMean = 1 - rgbRed / (count * 255);
+
+    let xMeanData = {
+      time: (new Date() - initTime) / 1000,
+      x: xMean
+    };
+
+    acdc[nFrame % WINDOW_LENGTH] = xMean;
+
+    // TODO: calculate AC from AC-DC only each WINDOW_LENGTH time:
+    if (nFrame % WINDOW_LENGTH == 0) {
+      // console.log(`nFrame = ${nFrame}`);
+      // console.log(`ac = ${acdc}`);
+      // console.log(`ac-detrended = ${detrend(acdc)}`);
+      document.getElementById('signal-window').innerHTML = `nWindow: ${nFrame / WINDOW_LENGTH}`;
+      if ((nFrame / 100) % 2 == 0) {
+        isSignal = 1;
+        ac = detrend(acdc);
+        acWindow = windowMean(ac);
+      } else {
+        ac = Array(WINDOW_LENGTH).fill(acWindow);
+        isSignal = 0;
+      }
+    }
+
+    acFrame = ac[nFrame % WINDOW_LENGTH];
+
+    xMeanArr.push(xMeanData);
+
+    document.getElementById('frame-time').innerHTML = `Frame time: ${xMeanData.time.toFixed(2)}`;
+    document.getElementById('video-time').innerHTML = `Video time: ${(video.currentTime.toFixed(2))}`;
+    document.getElementById('signal').innerHTML = `X: ${xMeanData.x}`;
+
+    const fps = (++frameCount / video.currentTime).toFixed(3);
+    document.getElementById('frame-fps').innerHTML = `Frame count: ${frameCount}, FPS: ${fps}`;
+
+    ctx_tmp.putImageData(frame, 0, 0);
   }
-  // invert to plot the PPG signal
-  xMean = 1 - rgbRed / (count * 255);
-
-  let xMeanData = {
-    time: (new Date() - initTime) / 1000,
-    x: xMean
-  };
-
-  acdc[nFrame % WINDOW_LENGTH] = xMean;
-
-  // TODO: calculate AC from AC-DC only each WINDOW_LENGTH time:
-  if (nFrame % WINDOW_LENGTH == 0) {
-    // console.log(`nframe = ${nFrame}`);
-    console.log(`ac = ${acdc}`);
-    // console.log(`ac-detrended = ${detrend(acdc)}`);
-    ac = detrend(acdc);
-  }
-  // ac[nFrame % WINDOW_LENGTH] = xMean;
-
-  acFrame = ac[nFrame % WINDOW_LENGTH];
-
-  xMeanArr.push(xMeanData);
-
-  document.getElementById('frame-time').innerHTML = `Frame time: ${xMeanData.time.toFixed(2)}`;
-  document.getElementById('video-time').innerHTML = `Video time: ${(video.currentTime.toFixed(2))}`;
-  document.getElementById('signal').innerHTML = `X: ${xMeanData.x}`;
-
-  const fps = (++frameCount / video.currentTime).toFixed(3);
-  document.getElementById('frame-fps').innerHTML = `Frame count: ${frameCount}, FPS: ${fps}`;
-
-  ctx_tmp.putImageData(frame, 0, 0);
-  setTimeout(computeFrame, delay); // continue with delay
   nFrame += 1;
+  setTimeout(computeFrame, delay); // continue with delay
+}
+
+function windowMean(y) {
+  const n = y.length;
+  let sum = 0;
+  for (let i = 0; i < n; i++) {
+    sum += y[i]
+  }
+
+  return sum / n;
 }
 
 function detrend(y) {
@@ -177,14 +199,14 @@ function pauseVideo() {
   video.currentTime = 0;
 }
 
-// start with dummy flat signal
 function seedData() {
   let now = new Date();
 
   for (let i = 0; i < MAX_LENGTH; ++i) {
     lineArr.push({
       time: new Date(now.getTime() - initTime - ((MAX_LENGTH - i) * DURATION)),
-      x: 0.008
+      x: 0.5,
+      signal: isSignal
     });
   }
 }
@@ -194,13 +216,14 @@ function updateData() {
 
   let lineData = {
     time: now - initTime,
-    x: acFrame
+    x: acFrame,
+    signal: isSignal
   };
   lineArr.push(lineData);
 
-  if (lineArr.length > 30) {
-    lineArr.shift();
-  }
+  // if (lineArr.length > 1) {
+  lineArr.shift();
+  // }
   d3.select("#chart").datum(lineArr).call(chart);
 }
 

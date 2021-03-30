@@ -8,7 +8,7 @@ function realTimeLineChart() {
     width = 600,
     height = 400,
     duration = 500,
-    color = ['#4682b4'];
+    color = ['#006400', '#4682b4', '#dc143c'];
 
   function chart(selection) {
     selection.each(function(data) {
@@ -16,7 +16,7 @@ function realTimeLineChart() {
         return {
           label: c,
           values: data.map(function(d) {
-            return { time: +d.time, value: d[c] };
+            return { time: +d.time, value: d[c], signal: +d.signal };
           })
         };
       });
@@ -64,27 +64,15 @@ function realTimeLineChart() {
       var g = svg.select("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-      // var formatY = d3.format(".2f");
-      // g.select("g.axis.x")
-      //   .attr("transform", "translate(0," + (height - margin.bottom - margin.top) + ")")
-      //   .transition(t)
-      //   .style("font-size", "15px")
-      //   .call(d3.axisBottom(x));
-
-      // g.select("g.axis.y")
-      //   .transition(t)
-      //   .attr("class", "axis y")
-      //   .style("font-size", "15px")
-      //   .call(d3.axisLeft(y).tickFormat(formatY));
-
       g.select("defs clipPath rect")
         .transition(t)
         .attr("width", width - margin.left - margin.right)
         .attr("height", height - margin.top - margin.right);
 
+      // function(d) { return colors[d.signal]; })
       g.selectAll("g path.data")
         .data(data)
-        .style("stroke", function(d) { return z(d.label); })
+        .style("stroke", color[1])
         .style("stroke-width", 3)
         .style("fill", "none")
         .transition()
@@ -103,6 +91,11 @@ function realTimeLineChart() {
           .transition()
           .on("start", tick);
       }
+
+      // function(d, i) { return getColor(d.values[i]); })
+      // function getColor(d) {
+      //   return color[d.signal];
+      // }
     });
   }
 
