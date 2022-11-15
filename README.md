@@ -5,7 +5,7 @@
 This repository is for demonstration purpuses only, as a proof of concept, that we can capture good enough PPG signal from any modern smartphone and that the captured PPG signal is good enough to estimate different cardiovascular metrics (in particular the blood glucose level). To evaluate the estimated values, we compare them to the values we get from a certifed medical device (e.g. glucometer that you can buy in a pharmacy store).
 
 You can test the demo application by visiting the following website from your smartphone (for details see the Instructions below):
-[https://markolalovic.com/ppg-vitals/](https://markolalovic.com/ppg-vitals)
+[https://markolalovic.github.io/ppg-vitals/](https://markolalovic.github.io/ppg-vitals)
 
 ***Update: Example of captured dataset and trained model on this dataset will be added shortly***
 
