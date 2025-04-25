@@ -5,7 +5,7 @@
 This repository is for demonstration purpuses only, as a proof of concept, that we can capture good enough PPG signal from any modern smartphone and that the captured PPG signal is good enough to estimate different cardiovascular metrics (in particular the blood glucose level). To evaluate the estimated values, we compare them to the values we get from a certifed medical device (e.g. glucometer that you can buy in a pharmacy store).
 
 You can test the demo application by visiting the following website from your smartphone (for details see the Instructions below):
-[https://markolalovic.github.io/ppg-vitals/](https://markolalovic.github.io/ppg-vitals)
+[https://ppgvitals.pages.dev/](https://ppgvitals.pages.dev/)
 
 ***Update: Example of captured dataset and trained model on this dataset will be added shortly***
 
@@ -19,7 +19,7 @@ The application uses the smartphone flashlight and camera to capture the photopl
 
  To test the application:
  
-- Visit: [applications website](https://markolalovic.com/smartphone-cvh-metrics/)
+- Visit: [applications website](https://ppgvitals.pages.dev/)
  from your smartphone.
 - Place the smartphone in the palm of your hand and press the `Measure` button; see **Figure 2 (a)**.
 - Cover both the camera and the flashlight with your finger as shown in **Figure 1**.
